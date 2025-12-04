@@ -1,0 +1,527 @@
+{
+ "cwaopendata": {
+  "xmlns": "urn:cwa:gov:tw:cwacommon:0.1",
+  "identifier": "25d6b4ec-17b8-4a49-a20b-d9872390d38c",
+  "sender": "weather@cwa.gov.tw",
+  "sent": "2025-12-05T13:06:53+08:00",
+  "status": "Actual",
+  "msgType": "Issue",
+  "source": "CWA",
+  "dataid": "F-A0010-001",
+  "scope": "Public",
+  "dataset": {
+   "datasetInfo": {
+    "datasetDescription": "農業氣象旬報",
+    "issueTime": "2025-12-05T11:00:00+08:00",
+    "update": "2025-12-05T11:00:00+08:00"
+   },
+   "location": [
+    {
+     "locationName": "宜蘭",
+     "stationId": "467080",
+     "time": [
+      {
+       "dataTime": "2025-12-05T11:00:00+08:00",
+       "weatherElement": [
+        {
+         "elementName": "平均溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "16.1"
+        },
+        {
+         "elementName": "最高溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "18.2"
+        },
+        {
+         "elementName": "最低溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "13.6"
+        },
+        {
+         "elementName": "相對濕度",
+         "elementMeasure": "百分比",
+         "elementValue": "83"
+        },
+        {
+         "elementName": "風速",
+         "elementMeasure": "公尺/秒",
+         "elementValue": "3.3"
+        },
+        {
+         "elementName": "風向",
+         "elementMeasure": "風花圖",
+         "elementValue": "東北"
+        },
+        {
+         "elementName": "降水量",
+         "elementMeasure": "毫米",
+         "elementValue": "30.0"
+        },
+        {
+         "elementName": "降水日數",
+         "elementMeasure": "日",
+         "elementValue": "2"
+        },
+        {
+         "elementName": "日照時數",
+         "elementMeasure": "小時",
+         "elementValue": "0.1"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "locationName": "花蓮",
+     "stationId": "466990",
+     "time": [
+      {
+       "dataTime": "2025-12-05T11:00:00+08:00",
+       "weatherElement": [
+        {
+         "elementName": "平均溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "18.3"
+        },
+        {
+         "elementName": "最高溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "21.6"
+        },
+        {
+         "elementName": "最低溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "15.7"
+        },
+        {
+         "elementName": "相對濕度",
+         "elementMeasure": "百分比",
+         "elementValue": "70"
+        },
+        {
+         "elementName": "風速",
+         "elementMeasure": "公尺/秒",
+         "elementValue": "2.1"
+        },
+        {
+         "elementName": "風向",
+         "elementMeasure": "風花圖",
+         "elementValue": "北"
+        },
+        {
+         "elementName": "降水量",
+         "elementMeasure": "毫米",
+         "elementValue": "2.4"
+        },
+        {
+         "elementName": "降水日數",
+         "elementMeasure": "日",
+         "elementValue": "1"
+        },
+        {
+         "elementName": "日照時數",
+         "elementMeasure": "小時",
+         "elementValue": "0.9"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "locationName": "臺東",
+     "stationId": "467660",
+     "time": [
+      {
+       "dataTime": "2025-12-05T11:00:00+08:00",
+       "weatherElement": [
+        {
+         "elementName": "平均溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "19.3"
+        },
+        {
+         "elementName": "最高溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "23.4"
+        },
+        {
+         "elementName": "最低溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "15.9"
+        },
+        {
+         "elementName": "相對濕度",
+         "elementMeasure": "百分比",
+         "elementValue": "70"
+        },
+        {
+         "elementName": "風速",
+         "elementMeasure": "公尺/秒",
+         "elementValue": "3.3"
+        },
+        {
+         "elementName": "風向",
+         "elementMeasure": "風花圖",
+         "elementValue": "北"
+        },
+        {
+         "elementName": "降水量",
+         "elementMeasure": "毫米",
+         "elementValue": "0.0"
+        },
+        {
+         "elementName": "降水日數",
+         "elementMeasure": "日",
+         "elementValue": "0"
+        },
+        {
+         "elementName": "日照時數",
+         "elementMeasure": "小時",
+         "elementValue": "8.8"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "locationName": "臺北",
+     "stationId": "466920",
+     "time": [
+      {
+       "dataTime": "2025-12-05T11:00:00+08:00",
+       "weatherElement": [
+        {
+         "elementName": "平均溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "16.1"
+        },
+        {
+         "elementName": "最高溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "18.3"
+        },
+        {
+         "elementName": "最低溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "14.4"
+        },
+        {
+         "elementName": "相對濕度",
+         "elementMeasure": "百分比",
+         "elementValue": "83"
+        },
+        {
+         "elementName": "風速",
+         "elementMeasure": "公尺/秒",
+         "elementValue": "3.8"
+        },
+        {
+         "elementName": "風向",
+         "elementMeasure": "風花圖",
+         "elementValue": "東北"
+        },
+        {
+         "elementName": "降水量",
+         "elementMeasure": "毫米",
+         "elementValue": "16.5"
+        },
+        {
+         "elementName": "降水日數",
+         "elementMeasure": "日",
+         "elementValue": "2"
+        },
+        {
+         "elementName": "日照時數",
+         "elementMeasure": "小時",
+         "elementValue": "0.0"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "locationName": "新竹",
+     "stationId": "467571",
+     "time": [
+      {
+       "dataTime": "2025-12-05T11:00:00+08:00",
+       "weatherElement": [
+        {
+         "elementName": "平均溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "15.9"
+        },
+        {
+         "elementName": "最高溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "18.2"
+        },
+        {
+         "elementName": "最低溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "14.3"
+        },
+        {
+         "elementName": "相對濕度",
+         "elementMeasure": "百分比",
+         "elementValue": "80"
+        },
+        {
+         "elementName": "風速",
+         "elementMeasure": "公尺/秒",
+         "elementValue": "6.1"
+        },
+        {
+         "elementName": "風向",
+         "elementMeasure": "風花圖",
+         "elementValue": "東北"
+        },
+        {
+         "elementName": "降水量",
+         "elementMeasure": "毫米",
+         "elementValue": "0.0"
+        },
+        {
+         "elementName": "降水日數",
+         "elementMeasure": "日",
+         "elementValue": "0"
+        },
+        {
+         "elementName": "日照時數",
+         "elementMeasure": "小時",
+         "elementValue": "0.0"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "locationName": "臺中",
+     "stationId": "467490",
+     "time": [
+      {
+       "dataTime": "2025-12-05T11:00:00+08:00",
+       "weatherElement": [
+        {
+         "elementName": "平均溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "17.9"
+        },
+        {
+         "elementName": "最高溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "21.8"
+        },
+        {
+         "elementName": "最低溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "15.1"
+        },
+        {
+         "elementName": "相對濕度",
+         "elementMeasure": "百分比",
+         "elementValue": "80"
+        },
+        {
+         "elementName": "風速",
+         "elementMeasure": "公尺/秒",
+         "elementValue": "3.0"
+        },
+        {
+         "elementName": "風向",
+         "elementMeasure": "風花圖",
+         "elementValue": "北北東"
+        },
+        {
+         "elementName": "降水量",
+         "elementMeasure": "毫米",
+         "elementValue": "0.0"
+        },
+        {
+         "elementName": "降水日數",
+         "elementMeasure": "日",
+         "elementValue": "0"
+        },
+        {
+         "elementName": "日照時數",
+         "elementMeasure": "小時",
+         "elementValue": "4.5"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "locationName": "嘉義",
+     "stationId": "467480",
+     "time": [
+      {
+       "dataTime": "2025-12-05T11:00:00+08:00",
+       "weatherElement": [
+        {
+         "elementName": "平均溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "17.3"
+        },
+        {
+         "elementName": "最高溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "22.5"
+        },
+        {
+         "elementName": "最低溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "13.0"
+        },
+        {
+         "elementName": "相對濕度",
+         "elementMeasure": "百分比",
+         "elementValue": "82"
+        },
+        {
+         "elementName": "風速",
+         "elementMeasure": "公尺/秒",
+         "elementValue": "1.8"
+        },
+        {
+         "elementName": "風向",
+         "elementMeasure": "風花圖",
+         "elementValue": "北"
+        },
+        {
+         "elementName": "降水量",
+         "elementMeasure": "毫米",
+         "elementValue": "0.0"
+        },
+        {
+         "elementName": "降水日數",
+         "elementMeasure": "日",
+        "elementValue": "0"
+        },
+        {
+         "elementName": "日照時數",
+         "elementMeasure": "小時",
+         "elementValue": "6.8"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "locationName": "高雄",
+     "stationId": "467440",
+     "time": [
+      {
+       "dataTime": "2025-12-05T11:00:00+08:00",
+       "weatherElement": [
+        {
+         "elementName": "平均溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "20.1"
+        },
+        {
+         "elementName": "最高溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "24.1"
+        },
+        {
+         "elementName": "最低溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "16.8"
+        },
+        {
+         "elementName": "相對濕度",
+         "elementMeasure": "百分比",
+         "elementValue": "78"
+        },
+        {
+         "elementName": "風速",
+         "elementMeasure": "公尺/秒",
+         "elementValue": "1.9"
+        },
+        {
+         "elementName": "風向",
+         "elementMeasure": "風花圖",
+         "elementValue": "北北西"
+        },
+        {
+         "elementName": "降水量",
+         "elementMeasure": "毫米",
+         "elementValue": "0.0"
+        },
+        {
+         "elementName": "降水日數",
+         "elementMeasure": "日",
+         "elementValue": "0"
+        },
+        {
+         "elementName": "日照時數",
+         "elementMeasure": "小時",
+         "elementValue": "6.7"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "locationName": "恆春",
+     "stationId": "467590",
+     "time": [
+      {
+       "dataTime": "2025-12-05T11:00:00+08:00",
+       "weatherElement": [
+        {
+         "elementName": "平均溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "21.1"
+        },
+        {
+         "elementName": "最高溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "23.4"
+        },
+        {
+         "elementName": "最低溫度",
+         "elementMeasure": "攝氏度",
+         "elementValue": "19.5"
+        },
+        {
+         "elementName": "相對濕度",
+         "elementMeasure": "百分比",
+         "elementValue": "72"
+        },
+        {
+         "elementName": "風速",
+         "elementMeasure": "公尺/秒",
+         "elementValue": "8.0"
+        },
+        {
+         "elementName": "風向",
+         "elementMeasure": "風花圖",
+         "elementValue": "東北東"
+        },
+        {
+         "elementName": "降水量",
+         "elementMeasure": "毫米",
+         "elementValue": "0.0"
+        },
+        {
+         "elementName": "降水日數",
+         "elementMeasure": "日",
+         "elementValue": "0"
+        },
+        {
+         "elementName": "日照時數",
+         "elementMeasure": "小時",
+         "elementValue": "8.2"
+        }
+       ]
+      }
+     ]
+    }
+   ],
+   "resource_id": "F-A0010-001"
+  }
+ }
+}
