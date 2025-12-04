@@ -4,10 +4,14 @@ import sqlite3
 import os
 import folium
 from streamlit_folium import st_folium
-import subprocess
+import json
+import re
+import sys
+from typing import Any, Dict, List, Optional
 
 # --- Configuration & Constants ---
 DB_FILE = "data.db"
+JSON_SOURCE = "data.json"
 
 # Approximate coordinates for the locations in the database.
 LOCATION_COORDS = {
@@ -22,7 +26,77 @@ LOCATION_COORDS = {
     "恆春": {"lat": 22.004, "lon": 120.744},
 }
 
-# --- Data Loading ---
+# --- Data Fetching & Processing Logic (from fetch_temperatures.py) ---
+
+def is_temp_name(name: str) -> bool:
+    """Checks if an element name looks like a temperature."""
+    return bool(re.search(r"temp|temperature|t\b|溫度", name, re.IGNORECASE))
+
+def find_locations(data: Any) -> List[Dict[str, Optional[str]]]:
+    """
+    Recursively scan JSON to find objects that represent locations with temperatures.
+    """
+    found: List[Dict[str, Optional[str]]] = []
+    def scan(obj: Any, inherited_loc_name: Optional[str] = None):
+        if isinstance(obj, dict):
+            loc_name = inherited_loc_name
+            for k in ("locationName", "locationname", "location", "siteName", "stationName", "name"):
+                if k in obj and isinstance(obj[k], str):
+                    loc_name = obj[k]; break
+            if "weatherElement" in obj and isinstance(obj["weatherElement"], list):
+                for elem in obj["weatherElement"]:
+                    if not isinstance(elem, dict): continue
+                    elem_name = elem.get("elementName") or elem.get("name") or ""
+                    if is_temp_name(elem_name):
+                        temp_val = None
+                        val_container = elem.get("elementValue") or elem.get("value")
+                        if isinstance(val_container, dict):
+                            temp_val = val_container.get("value") or val_container.get("measure")
+                        elif val_container is not None:
+                            temp_val = str(val_container)
+                        if loc_name and temp_val is not None:
+                            found.append({"location": loc_name, "temp_type": elem_name, "temperature": temp_val})
+            for v in obj.values(): scan(v, loc_name)
+        elif isinstance(obj, list):
+            for it in obj: scan(it, inherited_loc_name)
+    scan(data)
+    return found
+
+def write_sqlite(rows: List[Dict[str, Optional[str]]], db_path: str) -> None:
+    """Writes extracted temperature data to the SQLite database."""
+    if not rows: return
+    conn = sqlite3.connect(db_path)
+    cur = conn.cursor()
+    cur.execute("CREATE TABLE IF NOT EXISTS temperatures (id INTEGER PRIMARY KEY, location TEXT NOT NULL, temp_type TEXT NOT NULL, temperature REAL NOT NULL)")
+    cur.execute("DELETE FROM temperatures")
+    for r in rows:
+        loc, temp_type, temp = r.get("location"), r.get("temp_type"), r.get("temperature")
+        if loc and temp_type and temp is not None:
+            try:
+                cur.execute("INSERT INTO temperatures (location, temp_type, temperature) VALUES (?, ?, ?)", (loc, temp_type, float(temp)))
+            except (ValueError, TypeError):
+                st.warning(f"Could not convert temperature '{temp}' to float for {loc}. Skipping.")
+    conn.commit()
+    conn.close()
+
+def update_database_from_json(json_path: str = JSON_SOURCE, db_path: str = DB_FILE) -> str:
+    """Reads the source JSON, processes it, and updates the SQLite DB."""
+    try:
+        with open(json_path, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+        
+        locations = find_locations(data.get('cwaopendata', data))
+        if not locations:
+            return "No locations/temperatures discovered in the JSON file."
+            
+        write_sqlite(locations, db_path)
+        return f"Successfully updated database with {len(locations)} records."
+    except FileNotFoundError:
+        return f"Error: Source data file not found at `{json_path}`."
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+# --- Data Loading for the App ---
 @st.cache_data
 def get_data() -> pd.DataFrame:
     """Connects to the SQLite DB and returns a 'long' DataFrame with coordinates."""
@@ -41,6 +115,14 @@ def get_data() -> pd.DataFrame:
 st.set_page_config(page_title="Taiwan Temperature Map", layout="wide")
 st.title("🌡️ Taiwan Temperature Viewer")
 
+# --- Initial Data Check and Setup ---
+if not os.path.exists(DB_FILE):
+    st.info(f"`{DB_FILE}` not found. Attempting to create it from `{JSON_SOURCE}`...")
+    with st.spinner("Processing source data..."):
+        result_message = update_database_from_json()
+        st.success(result_message)
+        st.rerun()
+
 # --- Initialize Session State ---
 if 'selected_location' not in st.session_state:
     st.session_state.selected_location = "All Locations"
@@ -49,19 +131,18 @@ if 'selected_location' not in st.session_state:
 df = get_data()
 
 if df.empty:
-    st.warning(f"No data found in `{DB_FILE}`. Please run `fetch_temperatures.py` first.", icon="⚠️")
+    st.warning(f"No data to display. Check if `{JSON_SOURCE}` exists and is valid.", icon="⚠️")
 else:
     # --- Sidebar and Map Controllers ---
     st.sidebar.header("📍 Location Selector")
     locations_list = ["All Locations"] + sorted(df["location"].unique().tolist())
     
-    # This logic block handles the two-way sync between map and selectbox
-    
+    # Logic for two-way sync between map and selectbox
     # 1. Create map and check for clicks
     if st.session_state.selected_location == "All Locations":
         map_center = [23.97, 120.96]; map_zoom = 7
     else:
-        loc_info = LOCATION_COORDS.get(st.session_state.selected_location)
+        loc_info = LOCATION_COORDS.get(st.session_state.selected_location, {"lat": 23.97, "lon": 120.96})
         map_center = [loc_info['lat'], loc_info['lon']]; map_zoom = 10
 
     m = folium.Map(location=map_center, zoom_start=map_zoom, tiles="CartoDB positron")
@@ -78,20 +159,14 @@ else:
             st.rerun()
 
     # 2. Create selectbox and check for changes
-    # Set index based on the current session state
     current_selection_index = locations_list.index(st.session_state.selected_location)
-    selection = st.sidebar.selectbox(
-        "Choose a location:", 
-        locations_list, 
-        index=current_selection_index
-    )
+    selection = st.sidebar.selectbox("Choose a location:", locations_list, index=current_selection_index)
 
-    # If selectbox is changed, update state and rerun
     if st.session_state.selected_location != selection:
         st.session_state.selected_location = selection
         st.rerun()
 
-    # --- Display Data (based on the final session state) ---
+    # --- Display Data ---
     st.write("---")
     if st.session_state.selected_location == "All Locations":
         st.header("📊 Full Data Overview")
@@ -106,33 +181,15 @@ else:
             with cols[i]:
                 st.metric(label=row.temp_type, value=f"{row.temperature} °C")
 
+    # --- Actions ---
     st.sidebar.write("---")
     st.sidebar.header("Actions")
     if st.sidebar.button("🔄 Update Data"):
         with st.spinner("Fetching latest data from source..."):
-            try:
-                # We assume the virtual environment's Python is in the path.
-                # If not, a more specific path might be needed.
-                result = subprocess.run(
-                    ["python", "fetch_temperatures.py"],
-                    capture_output=True,
-                    text=True,
-                    check=True,
-                    encoding='utf-8' # Ensure output is decoded correctly
-                )
-                st.sidebar.success("Data updated successfully!")
-                st.sidebar.info("Output from update script:")
-                st.sidebar.code(result.stdout)
-                # Clear the cache to force a re-read of the data
-                st.cache_data.clear()
-            except subprocess.CalledProcessError as e:
-                st.sidebar.error("Failed to update data.")
-                st.sidebar.code(e.stderr)
-            except FileNotFoundError:
-                st.sidebar.error("Error: 'python' command not found. Is Python in your system's PATH?")
-        
-        # Rerun the app to reflect the changes
+            update_message = update_database_from_json()
+            st.sidebar.success(update_message)
+            st.cache_data.clear() # Clear cache to force data reload
         st.rerun()
 
     st.sidebar.write("---")
-    st.sidebar.info("Data is read from `data.db`.")
+    st.sidebar.info(f"Data is read from `{DB_FILE}`.")
